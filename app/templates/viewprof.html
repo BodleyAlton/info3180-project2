@@ -1,0 +1,21 @@
+{% extends 'base.html'%}
+{% block main%}
+    {% for user in users %}
+    <h1>{{ user.first_name }}'s Profile</h1>
+    <img src="{{user.profpic}}"></img>
+    <h2>{{ user.first_name }} {{user.last_name}}</h2> 
+    <h6>Date Created: {{user.date_created}}</h6>
+    <p>Email: {{user.email}}<br>
+    <!--UserID: {{user.id}}<br>-->
+    Gender: {{user.gender}}<br>
+    Age: {{user.age}}<br><br>
+    {{user.bio}}
+    </p> 
+    {% endfor %}
+    <form class = 'search' method="POST">
+        <label for="searchBox">Enter a URL</label>
+        <input type="text" name="searchBox" id='search'/>
+        <input type="submit" name="submit" id="submit"/>
+    </form>
+    {% endblock%}
+    

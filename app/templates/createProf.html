@@ -1,0 +1,37 @@
+{%include 'base.html'%}
+
+{% block main %}
+<h1>Create Profile</h1>
+<form action="{{ url_for('createprof') }}" method="post" enctype="multipart/form-data">
+  {{ form.csrf_token }}
+  <div class="form-group">
+    {{ form.firstname.label }}
+    {{ form.firstname( size=20,placeholder="Enter your firstname") }}
+  </div>
+  <div class="form-group">
+    {{ form.lastname.label }}
+    {{ form.lastname( size=20, placeholder="Enter your lastname") }}
+  </div>
+  <div class="form-group">
+    {{ form.email.label }}
+    {{ form.email( size=20, placeholder="Enter your email") }}
+  </div>
+  <div class="form-group">
+    {{ form.password.label }}
+    {{ form.password( size=20, type="password",placeholder="Enter your password") }}
+  </div>
+  <div class="form-group">  
+    {{ form.age.label }}
+    {{ form.age(size=2) }}
+  </div>
+  <div class="form-group">  
+    {{ form.gender.label }}
+    {{ form.gender(size=1) }}
+  </div>
+  <div class="form-group">  
+    {{form.profpic.label}}
+    {{form.profpic}}
+  </div>
+  <input type="submit" name="submit" value="Create Profile"/>
+</form>
+{%endblock%}
