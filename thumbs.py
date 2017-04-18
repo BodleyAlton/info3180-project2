@@ -1,4 +1,4 @@
-import requests,jsonify
+import requests,jsonify,json
 from bs4 import BeautifulSoup
 import urlparse
 
@@ -10,7 +10,7 @@ def get_thumbs(url):
 
 def image(result,url):
     urls=[]
-    urls.append('urls:')
+    
     soup = BeautifulSoup(result.text, "html.parser")
     
     # This will look for a meta tag with the og:image property
@@ -34,7 +34,12 @@ def image(result,url):
     #   print ''
        if img["src"] not in urls:
             urls.append(img['src'])
-    print urls
+    print len(urls)
     # print [x.encode("utf-8") for x in urls]
     print "thumbs Above"
-    return urls # [x.encode("utf-8") for x in urls]
+    #return urls
+    print json.dumps(urls)
+    return json.dumps(urls)
+    
+    
+    

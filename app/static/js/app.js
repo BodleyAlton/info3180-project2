@@ -1,8 +1,6 @@
 /* Add your Application JavaScript */
-var url='/url'
-var urll=[]
-var thumbs
-var imgs
+var url='/url';
+var urls;
 $(document).ready(function(){
     $('#submit').click(function(e){
         e.preventDefault();
@@ -17,10 +15,9 @@ $(document).ready(function(){
         }).done(function(status){
             console.log(status);
             console.log("B4");
-            urll=status.split(',')
-            console.log(urll[1])
-            imgs=urll.splice(0,1)
-            console.log(imgs[0])
+            urls=(JSON.parse(status))
+            console.log(urls)
+            console.log(urls[0])
         });
     });
 });

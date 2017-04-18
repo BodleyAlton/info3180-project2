@@ -98,36 +98,38 @@ def createprof():
 
 @app.route('/api/users/<userid>/wishlist', methods=["POST","GET"])
 def get_wishlist(userid):
-    return render_template("wishlist.html")
+    if request.method=="GET":
+        #Return wishlist
+        
+        return render_template("wishlist.html",wish=wishlist)
+    if request.method=="POST":
+        #Add item to wishlist
+        url=request.form['url']
+        uid= userid
+        desc=request.form['desc']
+        title=request.form['title']
+        webadd=request.form['webadd']
+        item=WishList(uid,url,title,desc,webadd)
+        db.add(item)
+        db.commit()
+        return render_template("wishlist.html",wish=wishlist)
 
+@app.route('/api/users/<userid>/wishlist/<itemid>',methods=["DELETE"])
+def delete(userid,itemid):
+    if request.method=="DELETE":
+        #Remove item from table
+        return render_template('wishlist.html')
+    return render_template('wishlist.html')
+    
 @app.route('/url',methods=["POST","get"])
 def get_urls():
-    p=[]
-    l={}
-    i=0
     url=request.form['urls']
     print url
     imag=get_thumbs(url)
-    # p={"image":imag}
-    # print imag
-    print list(imag)
-    imag= [x.encode('UTF8') for x in imag]
-    return str(imag)#jsonify(imag)
+    print imag
+    print "AFTER"
+    return imag
   
-@app.route('/api/thumbnails')
-def api(url):
-    err= None
-    message="success"
-    # print "IMMMMS"
-    # thumbnails=image(url)
-    # print "IMMMMMMMMAGES"
-    imgs={"error": err, "message": message, "thumbnails": thumbnails}
-    # print jsonify(imgs)
-    return jsonify(imgs)
-
-
-# url = "https://www.walmart.com/ip/54649026"
-    
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
