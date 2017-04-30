@@ -17,7 +17,6 @@ alembic==0.9.1
 argparse==1.2.1
 beautifulsoup4==4.5.3
 click==6.7
-get==0.0.0
 itsdangerous==0.24
 jsonify==0.5
 post==0.0.0
