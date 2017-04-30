@@ -4,6 +4,8 @@ import urlparse
 
 def get_thumbs(url):
     result = requests.get(url)
+    # print "GETTHUM"
+    # print result
     return image(result,url)
 # url = "https://www.walmart.com/ip/54649026"
 
@@ -12,7 +14,7 @@ def image(result,url):
     urls=[]
     
     soup = BeautifulSoup(result.text, "html.parser")
-    
+    # print soup.prettify()
     # This will look for a meta tag with the og:image property
     og_image = (soup.find('meta', property='og:image') or
                         soup.find('meta', attrs={'name': 'og:image'}))
@@ -34,12 +36,19 @@ def image(result,url):
     #   print ''
        if img["src"] not in urls:
             urls.append(img['src'])
-    print len(urls)
+    # print len(urls)
     # print [x.encode("utf-8") for x in urls]
-    print "thumbs Above"
+    # print "thumbs Above"
     #return urls
-    print json.dumps(urls)
-    return json.dumps(urls)
+    # print json.dumps(urls)
+
     
+    for desc in soup.find_all("description"):
+        d = BeautifulSoup(desc.text,"lxml")
+        img = d.find("img")
+        # print("Title = {}".format(desc.find_previous("title").text))
+        img_text = img.get("title") or img.get("alt","") if img else ""
+        # print("Decscription = {}\n" .format(d.find(text=True) + img_text))
+    return json.dumps(urls)
     
     

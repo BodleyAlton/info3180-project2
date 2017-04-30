@@ -1,2 +1,21 @@
 {% extends 'base.html'%}
- 
+
+{% block main%}
+
+ <h2>Thumbnails</h2>
+<div class= "container" ng-app = "view_thumApp" ng-controller = "view_thumCtrl">
+    {% raw %}
+    <div ng-repeat= 'url in urls'>
+        <img  ng-src= "{{url}}"/> 
+    </div>
+    {% endraw %}
+</div>
+<form method= "GET" action="{{ url_for('emails') }}">
+  <input type="submit" value="Email">
+</form>
+{% endblock %}
+
+{% block js %} 
+<script src="{{ url_for('static',filename='js/angular.min.js') }}"></script>
+<script src="{{ url_for('static',filename='js/angular.js') }}"></script>
+{% endblock%}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block main %}
+<div id='div1'>
+    <h1>Email</h1>
+</div>
+
+<div>
+    <p>Enter email details </p>
+
+<form method= "POST" action="{{ url_for('emails') }}">
+  <b>Name</b><em class='required'>(Required)</em><br><br>
+  Please enter your full name<br><br>
+  <input type="text" name="name"><br><br>
+  <b>E-mail</b><em class='required'>(Required)</em><br><br>
+  Please enter your e-mail address<br><br>
+  <input type="email" name="email"><br><br>
+  <b>Subject</b><em class='required'>(Required)</em><br><br>
+  Please enter the subject: for your message <br><br>
+  <input type="text" name="subject"><br><br>
+  <b>Message</b><em class='required'>(Required)</em><br><br>
+  Please enter the message you would like to send <br><br>
+  <textarea name="message" rows="5" cols="30">
+  </textarea><br><br>
+  <input type="submit" value="send">
+</form>
+    
+</div>
+{% endblock %}

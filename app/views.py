@@ -7,7 +7,10 @@ from models import *
 from werkzeug.utils import secure_filename
 from bs4 import BeautifulSoup
 from thumbs import *
+from flask_jwt import JWT
+from . import app
 
+jwt = JWT(app, authenticate, identity)
 
 @app.route('/')
 def home():
@@ -99,9 +102,21 @@ def createprof():
 @app.route('/api/users/<userid>/wishlist', methods=["POST","GET"])
 def get_wishlist(userid):
     if request.method=="GET":
+        urls=[]
         #Return wishlist
-        
-        return render_template("wishlist.html",wish=wishlist)
+        # print current_user.id;
+        wishlist= db.session.query(WishList).filter_by(uid=userid).all()
+        print "RESULT"
+        for wish in wishlist:
+            print wish.desc
+            url=wish.desc
+            title=wish.title
+            p={"title":title, "url":url}
+            urls.append(p)
+        message="success"
+        wishlist={"message":message, "urls":urls}
+        wishes= json.dumps(wishlist)
+        return render_template("wishlist.html",wish=wishes)
     if request.method=="POST":
         #Add item to wishlist
         url=request.form['url']
@@ -118,17 +133,53 @@ def get_wishlist(userid):
 def delete(userid,itemid):
     if request.method=="DELETE":
         #Remove item from table
+        item=db.session.query(WishList).filter_by(id=itemid).all()
+        db.session.delete(item)
         return render_template('wishlist.html')
     return render_template('wishlist.html')
     
-@app.route('/url',methods=["POST","get"])
+@app.route('/emails',methods=["POST","GET"])
+def emails():
+    """Render the website Email page"""
+    if request.method=="POST":
+        name=request.form['name']
+        email=request.form['email']
+        subject=request.form['subject']
+        message=request.form['message']
+        #send_email(name,email,subject,message)
+    return render_template('emails.html')
+        
+def send_email(from_name, from_email, subject, msg):
+    from_addr= ''
+    to_addr = ''
+
+    message= """
+    From: {} <{}>
+    To: {}<{}>
+    subject: {}
+    {}
+    """
+    to_name="rick"
+    
+    message_to_send = message.format(from_name, from_addr,to_name, to_addr, subject,msg)
+
+    username=''
+    password=''
+
+    server= smtplib.SMTP('smtp.gmail.com:587')
+    server.starttls()
+    server.login(username,password)
+    server.sendmail(from_addr,to_addr,message_to_send)
+    server.quit()
+    
+@app.route('/url',methods=["GET"])
 def get_urls():
     url=request.form['urls']
-    print url
     imag=get_thumbs(url)
-    print imag
-    print "AFTER"
-    return imag
+    image={"urls":imag}
+    print jsonify(image)
+    print "AFTER JSON"
+    return jsonify(image)
   
 def allowed_file(filename):
     return '.' in filename and \

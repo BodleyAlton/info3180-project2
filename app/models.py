@@ -1,4 +1,5 @@
-from . import db
+from . import db,app
+from flask_jwt import JWT
 
 class UserProfile(db.Model):
     id = db.Column(db.Integer,autoincrement=True,primary_key=True)
@@ -21,7 +22,10 @@ class UserProfile(db.Model):
         self.age=age
         self.profpic=profpic
         self.date_created=date_created
-
+    
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+        
     def is_authenticated(self):
         return True
 
@@ -54,4 +58,13 @@ class WishList(db.Model):
         self.title=title
         self.desc=desc
         self.webadd=webadd
-        
+
+def authenticate(email,password):
+    user = UserProfile.query.filter(UserProfile.email == email)
+    if UserProfile.check_password(UserProfile.password, password):
+        return user
+
+def identity(payload):
+    return UserProfile.query.filter(UserProfile.id == payload['identity'])
+    
+jwt = JWT(app, authenticate,identity)
