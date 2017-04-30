@@ -21,11 +21,11 @@ itsdangerous==0.24
 get==0.0.20
 jsonify==0.5
 post==0.0.12
-public==0.0.0
+public==0.0.37
 python-editor==1.0.3
-query-string==0.0.0
-request==0.0.0
+query-string==0.0.11
+request==0.0.12
 requests==2.13.0
-setupfiles==0.0.0
+setupfiles==0.0.14
 wsgiref==0.1.2
 gunicorn==19.6.0
