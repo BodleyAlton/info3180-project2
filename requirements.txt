@@ -20,7 +20,7 @@ click==6.7
 itsdangerous==0.24
 get==0.0.20
 jsonify==0.5
-post==0.0.0
+post==0.0.12
 public==0.0.0
 python-editor==1.0.3
 query-string==0.0.0
